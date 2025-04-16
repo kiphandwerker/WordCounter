@@ -36,10 +36,15 @@ void WordandFreq(const std::string& filename) {
     }
 
     file.close();
+
+    std::cout << "Word Frequencies:\n";
+    for (const auto& pair : wordCounts) {
+        std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
+    }
 }
 // Example usage
 int main() {
-
-    std::cout << "Hello world" << std::endl;
+    std::string filename = "example.txt"; // Replace with your actual filename
+    WordandFreq(filename);
     return 0;
 }
