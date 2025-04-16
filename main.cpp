@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <unordered_set>
 #include <sstream>
 #include <string>
 #include <cctype>
@@ -18,7 +19,7 @@ std::string CleanWord(const std::string& word) {
     return cleaned;
 }
 
-void WordandFreq(const std::string& filename) {
+void WordandFreq(const std::string& filename, const std::unordered_set<std::string>& excludeWords) {
 
     std::ifstream file(filename);
 
@@ -32,32 +33,36 @@ void WordandFreq(const std::string& filename) {
 
     while (file >> word) {
         std::string cleaned = CleanWord(word);
-        if (!cleaned.empty()) {
+        if (!cleaned.empty() && excludeWords.find(cleaned) == excludeWords.end()) {
             ++wordCounts[cleaned];
         }
     }
 
     file.close();
 
-    // Transfer map to vector for sorting
     std::vector<std::pair<std::string, int>> sortedWords(wordCounts.begin(), wordCounts.end());
 
-    // Sort by frequency (descending). If same frequency, sort alphabetically.
     std::sort(sortedWords.begin(), sortedWords.end(),
         [](const auto& a, const auto& b) {
             if (a.second == b.second)
-                return a.first < b.first; // alphabetical order
-            return a.second > b.second;   // descending frequency
+                return a.first < b.first; 
+            return a.second > b.second;
         });
 
-    std::cout << "Word Frequencies (sorted):\n";
+    std::cout << "Word Frequencies (excluding specified words):\n";
     for (const auto& pair : sortedWords) {
         std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
     }
 }
 
 int main() {
-    std::string filename = "example.txt"; // Replace with your actual filename
-    WordandFreq(filename);
+    std::string filename = "example.txt";
+
+    // Words to exclude
+    std::unordered_set<std::string> excludeWords = {
+        "the", "and", "is", "in", "on", "at", "a", "an", "of", "to", "with"
+    };
+
+    WordandFreq(filename, excludeWords);
     return 0;
 }
