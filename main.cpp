@@ -6,7 +6,6 @@
 #include <cctype>
 #include <iomanip>
 
-// Helper function to clean a word (remove punctuation and convert to lowercase)
 std::string CleanWord(const std::string& word) {
     std::string cleaned;
     for (char ch : word) {
@@ -17,6 +16,16 @@ std::string CleanWord(const std::string& word) {
     return cleaned;
 }
 
+void WordandFreq(const std::string& filename) {
+
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+        return;
+    }
+
+}
 // Example usage
 int main() {
 
