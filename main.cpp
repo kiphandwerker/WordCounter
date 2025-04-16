@@ -5,6 +5,8 @@
 #include <string>
 #include <cctype>
 #include <iomanip>
+#include <vector>
+#include <algorithm>
 
 std::string CleanWord(const std::string& word) {
     std::string cleaned;
@@ -37,12 +39,23 @@ void WordandFreq(const std::string& filename) {
 
     file.close();
 
-    std::cout << "Word Frequencies:\n";
-    for (const auto& pair : wordCounts) {
+    // Transfer map to vector for sorting
+    std::vector<std::pair<std::string, int>> sortedWords(wordCounts.begin(), wordCounts.end());
+
+    // Sort by frequency (descending). If same frequency, sort alphabetically.
+    std::sort(sortedWords.begin(), sortedWords.end(),
+        [](const auto& a, const auto& b) {
+            if (a.second == b.second)
+                return a.first < b.first; // alphabetical order
+            return a.second > b.second;   // descending frequency
+        });
+
+    std::cout << "Word Frequencies (sorted):\n";
+    for (const auto& pair : sortedWords) {
         std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
     }
 }
-// Example usage
+
 int main() {
     std::string filename = "example.txt"; // Replace with your actual filename
     WordandFreq(filename);
