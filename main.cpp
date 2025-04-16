@@ -25,6 +25,17 @@ void WordandFreq(const std::string& filename) {
         return;
     }
 
+    std::unordered_map<std::string, int> wordCounts;
+    std::string word;
+
+    while (file >> word) {
+        std::string cleaned = CleanWord(word);
+        if (!cleaned.empty()) {
+            ++wordCounts[cleaned];
+        }
+    }
+
+    file.close();
 }
 // Example usage
 int main() {
