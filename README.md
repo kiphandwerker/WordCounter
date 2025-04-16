@@ -39,4 +39,3 @@ g++ -std=c++11 -o word_counter word_counter.cpp
 
 - Add n-grams (common phrases)
 - GUI version
-- Histogram
