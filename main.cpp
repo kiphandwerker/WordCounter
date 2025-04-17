@@ -32,6 +32,11 @@ std::vector<std::pair<std::string, int>> SortWordCounts(const std::unordered_map
     return sortedWords;
 }
 
+void PrintResults(auto &words){
+    for (const auto& pair : words) {
+        std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
+    }
+}
 void WordandFreq(
     const std::string& filename, 
     const std::unordered_set<std::string>& ExcludeWords,
@@ -68,39 +73,15 @@ void WordandFreq(
     auto sortedWords = SortWordCounts(wordCounts);
 
     if(ShowFull == true){
-       std::cout << "Word Frequencies (excluding specified words):\n";
-        for (const auto& pair : sortedWords) {
-            std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
-    } 
+        std::cout << "Word Frequencies (excluding specified words):\n";
+        PrintResults(sortedWords);
     }
-    
-
-    // const int maxBars = 10;
-    // const int maxBarWidth = 20;
-
-    // std::cout << "\nASCII Histogram (top " << maxBars << "):\n\n";
-
-    // int count = 0;
-    // int maxFreq = sortedWords.empty() ? 0 : sortedWords[0].second;
-
-    // for (const auto& pair : sortedWords) {
-    //     if (count++ >= maxBars) break;
-
-    //     int barLength = static_cast<int>((static_cast<double>(pair.second) / maxFreq) * maxBarWidth);
-    //     std::string bar(static_cast<std::size_t>(std::max(0, barLength)), '#');
-
-    //     std::cout << std::setw(15) << std::left << pair.first
-    //               << " | " << std::setw(maxBarWidth) << std::left << bar
-    //               << " (" << pair.second << ")\n";
-    // }
 
     auto sortedSpecificWords = SortWordCounts(specificWordCounts);
 
     if(ShowInclusion == true){
         std::cout << "\nSpecific Word Counts (sorted):\n";
-        for (const auto& pair : sortedSpecificWords) {
-            std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
-        }
+        PrintResults(sortedSpecificWords);
     }
 
 }
