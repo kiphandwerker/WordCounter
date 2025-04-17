@@ -35,7 +35,9 @@ std::vector<std::pair<std::string, int>> SortWordCounts(const std::unordered_map
 void WordandFreq(
     const std::string& filename, 
     const std::unordered_set<std::string>& ExcludeWords,
-    const std::unordered_set<std::string>& IncludeWords) {
+    const std::unordered_set<std::string>& IncludeWords,
+    bool ShowFull = {true},
+    bool ShowInclusion = {true}) {
     
     std::ifstream file(filename);
 
@@ -65,10 +67,13 @@ void WordandFreq(
 
     auto sortedWords = SortWordCounts(wordCounts);
 
-    std::cout << "Word Frequencies (excluding specified words):\n";
-    for (const auto& pair : sortedWords) {
-        std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
+    if(ShowFull == true){
+       std::cout << "Word Frequencies (excluding specified words):\n";
+        for (const auto& pair : sortedWords) {
+            std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
+    } 
     }
+    
 
     // const int maxBars = 10;
     // const int maxBarWidth = 20;
@@ -91,14 +96,18 @@ void WordandFreq(
 
     auto sortedSpecificWords = SortWordCounts(specificWordCounts);
 
-    std::cout << "\nSpecific Word Counts (sorted):\n";
-    for (const auto& pair : sortedSpecificWords) {
-        std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
+    if(ShowInclusion == true){
+        std::cout << "\nSpecific Word Counts (sorted):\n";
+        for (const auto& pair : sortedSpecificWords) {
+            std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
+        }
     }
+
 }
 
 int main() {
     std::string filename = "example.txt";
+    bool ShowFull = {false};
 
     std::unordered_set<std::string> ExcludeWords = {
         "the", "and", "is", "in", "on", "at", "a", "an", "of", "to", "with", "for"
@@ -108,7 +117,7 @@ int main() {
         "thought", "shall", "they", "take"
     };
 
-    WordandFreq(filename, ExcludeWords, IncludeWords);
+    WordandFreq(filename, ExcludeWords, IncludeWords, ShowFull = false);
 
     return 0;
 }
