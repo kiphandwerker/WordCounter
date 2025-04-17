@@ -9,7 +9,7 @@
 #include <vector>
 #include <algorithm>
 
-std::string CleanWord(const std::string& word) {
+std::string CleanWord(const std::string &word) {
     std::string cleaned;
     for (char ch : word) {
         if (std::isalpha(ch)) {
@@ -19,11 +19,24 @@ std::string CleanWord(const std::string& word) {
     return cleaned;
 }
 
+std::vector<std::pair<std::string, int>> SortWordCounts(const std::unordered_map<std::string, int>& wordCounts) {
+    std::vector<std::pair<std::string, int>> sortedWords(wordCounts.begin(), wordCounts.end());
+
+    std::sort(sortedWords.begin(), sortedWords.end(),
+        [](const auto& a, const auto& b) {
+            if (a.second == b.second)
+                return a.first < b.first; 
+            return a.second > b.second;
+        });
+
+    return sortedWords;
+}
+
 void WordandFreq(
     const std::string& filename, 
-    const std::unordered_set<std::string>& excludeWords,
-    const std::unordered_set<std::string>& specificWordsToCount) 
-{
+    const std::unordered_set<std::string>& ExcludeWords,
+    const std::unordered_set<std::string>& IncludeWords) {
+    
     std::ifstream file(filename);
 
     if (!file.is_open()) {
@@ -33,32 +46,24 @@ void WordandFreq(
 
     std::unordered_map<std::string, int> wordCounts;
     std::unordered_map<std::string, int> specificWordCounts;
-
     std::string word;
 
     while (file >> word) {
         std::string cleaned = CleanWord(word);
         if (cleaned.empty()) continue;
 
-        if (excludeWords.find(cleaned) == excludeWords.end()) {
+        if (ExcludeWords.find(cleaned) == ExcludeWords.end()) {
             ++wordCounts[cleaned];
         }
 
-        if (specificWordsToCount.find(cleaned) != specificWordsToCount.end()) {
+        if (IncludeWords.find(cleaned) != IncludeWords.end()) {
             ++specificWordCounts[cleaned];
         }
     }
 
     file.close();
 
-    std::vector<std::pair<std::string, int>> sortedWords(wordCounts.begin(), wordCounts.end());
-
-    std::sort(sortedWords.begin(), sortedWords.end(),
-        [](const auto& a, const auto& b) {
-            if (a.second == b.second)
-                return a.first < b.first; 
-            return a.second > b.second;
-        });
+    auto sortedWords = SortWordCounts(wordCounts);
 
     std::cout << "Word Frequencies (excluding specified words):\n";
     for (const auto& pair : sortedWords) {
@@ -84,24 +89,26 @@ void WordandFreq(
     //               << " (" << pair.second << ")\n";
     // }
 
-    std::cout << "\nSpecific Word Counts:\n";
-    for (const auto& word : specificWordsToCount) {
-        std::cout << std::setw(15) << std::left << word << " : " << specificWordCounts[word] << '\n';
+    auto sortedSpecificWords = SortWordCounts(specificWordCounts);
+
+    std::cout << "\nSpecific Word Counts (sorted):\n";
+    for (const auto& pair : sortedSpecificWords) {
+        std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
     }
 }
 
 int main() {
     std::string filename = "example.txt";
 
-    std::unordered_set<std::string> excludeWords = {
-        "the", "and", "is", "in", "on", "at", "a", "an", "of", "to", "with"
+    std::unordered_set<std::string> ExcludeWords = {
+        "the", "and", "is", "in", "on", "at", "a", "an", "of", "to", "with", "for"
     };
 
-    std::unordered_set<std::string> specificWordsToCount = {
+    std::unordered_set<std::string> IncludeWords = {
         "thought", "shall", "they", "take"
     };
 
-    WordandFreq(filename, excludeWords, specificWordsToCount);
+    WordandFreq(filename, ExcludeWords, IncludeWords);
 
     return 0;
 }
