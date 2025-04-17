@@ -15,13 +15,13 @@ This is a simple function that reads in a text file and then creates a list of t
 <li>Compile the program:
 
 ```bash
-g++ -std=c++11 -o word_counter word_counter.cpp
+g++ -o count main.cpp 
 ```
 
 <li>Run the program
 
 ```bash
-./word_counter
+./count
 ```
 </ol>
 
