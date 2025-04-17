@@ -65,24 +65,24 @@ void WordandFreq(
         std::cout << std::setw(15) << std::left << pair.first << " : " << pair.second << '\n';
     }
 
-    const int maxBars = 10;
-    const int maxBarWidth = 20;
+    // const int maxBars = 10;
+    // const int maxBarWidth = 20;
 
-    std::cout << "\nASCII Histogram (top " << maxBars << "):\n\n";
+    // std::cout << "\nASCII Histogram (top " << maxBars << "):\n\n";
 
-    int count = 0;
-    int maxFreq = sortedWords.empty() ? 0 : sortedWords[0].second;
+    // int count = 0;
+    // int maxFreq = sortedWords.empty() ? 0 : sortedWords[0].second;
 
-    for (const auto& pair : sortedWords) {
-        if (count++ >= maxBars) break;
+    // for (const auto& pair : sortedWords) {
+    //     if (count++ >= maxBars) break;
 
-        int barLength = static_cast<int>((static_cast<double>(pair.second) / maxFreq) * maxBarWidth);
-        std::string bar(static_cast<std::size_t>(std::max(0, barLength)), '#');
+    //     int barLength = static_cast<int>((static_cast<double>(pair.second) / maxFreq) * maxBarWidth);
+    //     std::string bar(static_cast<std::size_t>(std::max(0, barLength)), '#');
 
-        std::cout << std::setw(15) << std::left << pair.first
-                  << " | " << std::setw(maxBarWidth) << std::left << bar
-                  << " (" << pair.second << ")\n";
-    }
+    //     std::cout << std::setw(15) << std::left << pair.first
+    //               << " | " << std::setw(maxBarWidth) << std::left << bar
+    //               << " (" << pair.second << ")\n";
+    // }
 
     std::cout << "\nSpecific Word Counts:\n";
     for (const auto& word : specificWordsToCount) {
