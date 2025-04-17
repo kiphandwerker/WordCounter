@@ -19,8 +19,11 @@ std::string CleanWord(const std::string& word) {
     return cleaned;
 }
 
-void WordandFreq(const std::string& filename, const std::unordered_set<std::string>& excludeWords) {
-
+void WordandFreq(
+    const std::string& filename, 
+    const std::unordered_set<std::string>& excludeWords,
+    const std::unordered_set<std::string>& specificWordsToCount) 
+{
     std::ifstream file(filename);
 
     if (!file.is_open()) {
@@ -29,12 +32,20 @@ void WordandFreq(const std::string& filename, const std::unordered_set<std::stri
     }
 
     std::unordered_map<std::string, int> wordCounts;
+    std::unordered_map<std::string, int> specificWordCounts;
+
     std::string word;
 
     while (file >> word) {
         std::string cleaned = CleanWord(word);
-        if (!cleaned.empty() && excludeWords.find(cleaned) == excludeWords.end()) {
+        if (cleaned.empty()) continue;
+
+        if (excludeWords.find(cleaned) == excludeWords.end()) {
             ++wordCounts[cleaned];
+        }
+
+        if (specificWordsToCount.find(cleaned) != specificWordsToCount.end()) {
+            ++specificWordCounts[cleaned];
         }
     }
 
@@ -72,16 +83,25 @@ void WordandFreq(const std::string& filename, const std::unordered_set<std::stri
                   << " | " << std::setw(maxBarWidth) << std::left << bar
                   << " (" << pair.second << ")\n";
     }
+
+    std::cout << "\nSpecific Word Counts:\n";
+    for (const auto& word : specificWordsToCount) {
+        std::cout << std::setw(15) << std::left << word << " : " << specificWordCounts[word] << '\n';
+    }
 }
 
 int main() {
     std::string filename = "example.txt";
 
-    // Words to exclude
     std::unordered_set<std::string> excludeWords = {
         "the", "and", "is", "in", "on", "at", "a", "an", "of", "to", "with"
     };
 
-    WordandFreq(filename, excludeWords);
+    std::unordered_set<std::string> specificWordsToCount = {
+        "thought", "shall", "they", "take"
+    };
+
+    WordandFreq(filename, excludeWords, specificWordsToCount);
+
     return 0;
 }
