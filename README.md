@@ -15,7 +15,7 @@ This is a simple function that reads in a text file and then creates a list of t
 <li>Compile the program:
 
 ```bash
-g++ -o count main.cpp 
+g++ -std=c++20 -o count main.cpp 
 ```
 
 <li>Run the program
@@ -26,7 +26,7 @@ g++ -o count main.cpp
 </ol>
 
 ## ✅ Requirements
-- C++11 or later
+- C++20 or later
 
 - A text file named example.txt in the same directory
 
