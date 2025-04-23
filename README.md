@@ -7,6 +7,7 @@ This is a simple function that reads in a text file and then creates a list of t
 - Skips common stop words like "the", "and", "of", etc.
 - Displays word frequencies in descending order
 - Sorts alphabetically when frequencies match
+- Can check for phrases
 
 ## 🛠️ Usage
 <ol>
@@ -36,6 +37,4 @@ g++ -std=c++20 -o count main.cpp
 - All words are converted to lowercase for accurate counting.
 
 ## 🧪 Future Upgrade Ideas
-
-- Add n-grams (common phrases)
 - GUI version
